@@ -18,7 +18,7 @@ professions = ['warriors', 'scouts', 'clerics', 'sorcerers', 'none', 'all']
 def cache_online_players(world):
     op = parser_online.get_online_players(str(world))
     v = json.dumps(op)
-    cache.put(cache="online_players", key=world, value=v)
+    #cache.put(cache="online_players", key=world, value=v)
     memcache.cache.set(world, v)
     print('Cached online players for ' + str(world))
 
@@ -26,7 +26,7 @@ def cache_online_players(world):
 def cache_highscores(world, profession):
     hs = parser_highscores.get_highscores(world, profession)
     v = json.dumps(hs)
-    cache.put(cache="highscores", key=world + '_' + profession, value=v)
+    #cache.put(cache="highscores", key=world + '_' + profession, value=v)
     memcache.cache.set('highscores_' + world + '_' + profession, v)
     print('Cached higscores for  ' + str(world) + '_' + profession)
 
