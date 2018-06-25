@@ -1,1 +1,1 @@
-worker: python medapiworker.py
+worker: python medworkers.py
