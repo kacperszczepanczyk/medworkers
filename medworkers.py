@@ -1,4 +1,5 @@
 from Parser import Parser
+from Fetcher import Fetcher
 from Memcache import Memcache
 from multiprocessing import Process
 from iron_cache import *
@@ -8,6 +9,7 @@ import time
 
 cache = IronCache()
 memcache = Memcache()
+fetcher = Fetcher()
 parser_online = Parser()
 parser_highscores = Parser()
 
@@ -54,12 +56,29 @@ def fetch_highscores(interval):
         time.sleep(interval)
 
 
+processes = [
+             Process(target=fetcher.fetch_online_players, args=(1,), name='fetch_online_players'),
+             Process(target=fetcher.fetch_highscores, args=(1,), name='fetch_highscores')
+            ]
+
+
 def thread_manager(interval):
-    p1 = Process(target=fetch_online_players, args=(10,), name='fetch_online_players')
+    for process in processes:
+        process.start()
+    '''
+    p1 = Process(target=fetcher.fetch_online_players, args=(10,), name='fetch_online_players')
     p1.start()
-    p2 = Process(target=fetch_highscores, args=(2*60*60,), name='fetch_highscores')
+    p2 = Process(target=fetcher.fetch_highscores, args=(2*60*60,), name='fetch_highscores')
     p2.start()
+    '''
     while True:
+        for process in processes:
+            print(str(process) + ' ' + str(process.is_alive()))
+            if not process.is_alive():
+                process.terminate()
+                process.start()
+
+        '''
         if not p1.is_alive():
             p1.terminate()
             p1 = Process(target=fetch_online_players, args=(10,), name='fetch_online_players')
@@ -70,6 +89,7 @@ def thread_manager(interval):
             p2.start()
         print(str(p1) + ' ' + str(p1.is_alive()))
         print(str(p2) + ' ' + str(p2.is_alive()))
+        '''
         time.sleep(interval)
 
 

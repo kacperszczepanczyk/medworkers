@@ -1,3 +1,7 @@
+worlds = ['legacy', 'spectrum', 'destiny', 'pendulum']
+professions = ['warriors', 'scouts', 'clerics', 'sorcerers', 'none', 'all']
+
+
 class Player:
 
     def __init__(self, name, profession, level):
