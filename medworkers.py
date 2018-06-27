@@ -5,7 +5,7 @@ from ProcessManager import ProcessManager
 fetcher = Fetcher()
 
 proc_attrs = {
-             'online': {'func': fetcher.fetch_online_players, 'arg': 10},
+             'online': {'func': fetcher.fetch_online_players, 'arg': 1},
              'highscores': {'func': fetcher.fetch_highscores, 'arg': 2*60*60}
             }
 
