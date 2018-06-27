@@ -73,7 +73,7 @@ def thread_manager(interval):
     '''
     while True:
         for process in processes:
-            print(str(process) + ' ' + str(process.is_alive()))
+            print(str(process) + ' - - ' + str(process.is_alive()))
             if not process.is_alive():
                 process.terminate()
                 process.start()
