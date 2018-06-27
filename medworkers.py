@@ -57,8 +57,8 @@ def fetch_highscores(interval):
 
 
 funcs = {
-             'online': fetcher.fetch_online_players,
-             'highscores': fetcher.fetch_highscores
+             'online': {'func': fetcher.fetch_online_players, 'arg': 10},
+             'highscores': {'func': fetcher.fetch_highscores, 'arg': 10}
             }
 
 proc_objects = []
@@ -66,7 +66,7 @@ proc_objects = []
 
 def thread_manager(interval):
     for key, value in funcs.items():
-        p = Process(target=value, args=(1,), name=key)
+        p = Process(target=value['func'], name=key, args=(value['arg'],))
         p.start()
         proc_objects.append(p)
         #process.start()
@@ -81,7 +81,8 @@ def thread_manager(interval):
             print(str(proc_object) + ' - - ' + str(proc_object.is_alive()))
             print('proc objects = ' + str(proc_objects))
             if not proc_object.is_alive():
-                p = Process(target=funcs[proc_object.name], args=(1,), name=proc_object.name)
+                p = Process(target=funcs[proc_object.name]['func'], name=proc_object.name
+                            , args=(funcs[proc_object.name]['arg'],))
                 p.start()
                 proc_object.terminate()
                 proc_objects.append(p)
