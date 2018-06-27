@@ -56,14 +56,19 @@ def fetch_highscores(interval):
         time.sleep(interval)
 
 
-processes = [
-             Process(target=fetcher.fetch_online_players, args=(1,), name='fetch_online_players'),
-             Process(target=fetcher.fetch_highscores, args=(1,), name='fetch_highscores')
-            ]
+funcs = {
+             'online': fetcher.fetch_online_players,
+             'highscores': fetcher.fetch_highscores
+            }
+
+proc_objects = []
 
 
 def thread_manager(interval):
-    #for process in processes:
+    for key, value in funcs.items():
+        p = Process(target=value, args=(1,), name=key)
+        p.start()
+        proc_objects.append(p)
         #process.start()
     '''
     p1 = Process(target=fetcher.fetch_online_players, args=(10,), name='fetch_online_players')
@@ -72,11 +77,17 @@ def thread_manager(interval):
     p2.start()
     '''
     while True:
-        for process in processes:
-            print(str(process) + ' - - ' + str(process.is_alive()))
-            if not process.is_alive():
-                process.terminate()
-                process.start()
+        for proc_object in proc_objects:
+            print(str(proc_object) + ' - - ' + str(proc_object.is_alive()))
+            print('funcs = ' + str(funcs))
+            print('proc objects = ' + str(proc_objects))
+            if not proc_object.is_alive():
+                p = Process(target=funcs[proc_object.name], args=(1,), name=proc_object.name)
+                p.start()
+                proc_object.terminate()
+                proc_objects.append(p)
+                #process.terminate()
+                #process.start()
 
         '''
         if not p1.is_alive():
