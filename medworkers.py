@@ -79,13 +79,13 @@ def thread_manager(interval):
     while True:
         for proc_object in proc_objects:
             print(str(proc_object) + ' - - ' + str(proc_object.is_alive()))
-            print('funcs = ' + str(funcs))
             print('proc objects = ' + str(proc_objects))
             if not proc_object.is_alive():
                 p = Process(target=funcs[proc_object.name], args=(1,), name=proc_object.name)
                 p.start()
                 proc_object.terminate()
                 proc_objects.append(p)
+                proc_objects.remove(proc_object)
                 #process.terminate()
                 #process.start()
 
