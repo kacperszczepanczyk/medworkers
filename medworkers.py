@@ -63,8 +63,8 @@ processes = [
 
 
 def thread_manager(interval):
-    for process in processes:
-        process.start()
+    #for process in processes:
+        #process.start()
     '''
     p1 = Process(target=fetcher.fetch_online_players, args=(10,), name='fetch_online_players')
     p1.start()
