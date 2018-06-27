@@ -16,11 +16,7 @@ class Player:
         return self.level < other
 
     def as_dict(self):
-        d = {}
-        d['name'] = self.name
-        d['profession'] = self.profession
-        d['level'] = self.level
-        return d
+        return {'name': self.name, 'profession': self.profession, 'level': self.level}
 
 
 class DetailedPlayer(Player):
